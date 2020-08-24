@@ -54,9 +54,25 @@ const post = {
     }
   };
 
+const API_URL = 'http://localhost:1337';
+
+const formatImageUrl = url => `${API_URL}${url}`;
+
 const Post = () => {
+    const url = post.image && post.image.url;
+    const description = post.description;
+    const likes = post.likes;
+
+    console.log('url: ', url);
+
     return (
-        <div>Posts Here</div>
+        <div>
+            <img src={formatImageUrl(url)}/>
+            <h4>{description}</h4>
+            <div>
+                <span>Likes: {likes}</span>
+            </div>
+        </div>
     );
 };
 
