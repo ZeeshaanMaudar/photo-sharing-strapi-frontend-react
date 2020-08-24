@@ -58,10 +58,37 @@ const post = {
   }
 };
 
+const posts = [
+  {
+    id: 1,
+    likes: 20,
+    description: 'Living on a prayer, because why not?',
+    image: {
+      url: '/uploads/Livin_On_A_Prayer_42296f8dca.jpg'
+    }
+  },
+  {
+    id: 2,
+    likes: 12,
+    description: 'Gambling is **not** good for you...',
+    image: {
+      url: '/uploads/random_fe518783e0.jpeg'
+    }
+  },
+];
+
+const callPosts = posts => {
+  if (posts && posts.length > 0) {
+    return posts.map(post => {
+      return <Post key={post.id} post={post} />;
+    })
+  }
+};
+
 const App = () => {
   return (
     <div className="App">
-      <Post post={post} />
+      {callPosts(posts)}
     </div>
   );
 }
