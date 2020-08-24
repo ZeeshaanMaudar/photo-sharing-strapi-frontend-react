@@ -63,11 +63,9 @@ const Post = () => {
     const description = post.description;
     const likes = post.likes;
 
-    console.log('url: ', url);
-
     return (
-        <div>
-            <img src={formatImageUrl(url)}/>
+        <div className='Post'>
+            <img className='Post__Image' src={formatImageUrl(url)}/>
             <h4>{description}</h4>
             <div>
                 <span>Likes: {likes}</span>
