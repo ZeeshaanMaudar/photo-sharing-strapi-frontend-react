@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 import Post from '../components/Post';
 
 
 const callPosts = posts => {
   if (posts && posts.length > 0) {
     return posts.map(post => {
-      return <Post key={post.id} post={post} />;
+      return (
+        <Link key={post.id} to={`/${post.id}`}>
+          <Post post={post} />
+        </Link>
+      );
     })
   }
 };
