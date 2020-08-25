@@ -6,8 +6,22 @@ const SinglePost = ({ match, history }) => {
 
     const [post, setPost] = useState({});
     const [loading, setLoading] = useState(true);
+    const [edit, setEdit] = useState(false);
+
+    // use for edit form
+    const [description, setDescription] = useState('');
 
     const { id } = match.params;
+
+    const fetchPost = async () => {
+        const response = await fetch(`http://localhost:1337/posts/${id}`);
+        const data = await response.json();
+
+        setPost(data);
+        setDescription(data.description);
+        setLoading(false);
+        
+    }
 
     const handleDelete = async () => {
         const response = await fetch(`http://localhost:1337/posts/${id}`, {
@@ -17,15 +31,26 @@ const SinglePost = ({ match, history }) => {
         history.push('/');
     };
 
-    useEffect(() => {
-        const fetchPost = async () => {
-            const response = await fetch(`http://localhost:1337/posts/${id}`);
-            const data = await response.json();
+    const handleEditSubmit = async event => {
+        event.preventDefault();
 
-            setPost(data);
-            setLoading(false);
-            
-        }
+        const response = await fetch(`http://localhost:1337/posts/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                description
+            })
+        })
+
+        const data = await response.json();
+
+        fetchPost();
+
+    }
+
+    useEffect(() => {
 
         fetchPost();
     }, []);
@@ -39,6 +64,17 @@ const SinglePost = ({ match, history }) => {
                 <>
                     <Post post={post} />
                     <button onClick={handleDelete}>Delete</button>
+                    <button onClick={() => setEdit(true)}>Edit</button>
+                    {edit && (
+                        <form onSubmit={handleEditSubmit}>
+                            <input
+                                value={description}
+                                onChange={event => setDescription(event.target.value)}
+                                placeholder='New description'
+                             />
+                            <button>Confirm</button>
+                        </form>
+                    )}
                 </>
             )}
         </div>
