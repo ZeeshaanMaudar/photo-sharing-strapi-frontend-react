@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import Post from '../components/Post';
 
 const SinglePost = ({ match }) => {
+
     const [post, setPost] = useState({});
+    const [loading, setLoading] = useState(true);
 
     const { id } = match.params;
 
@@ -12,8 +14,9 @@ const SinglePost = ({ match }) => {
             const response = await fetch(`http://localhost:1337/posts/${id}`);
             const data = await response.json();
 
-            console.log('data: ', data);
             setPost(data);
+            setLoading(false);
+            
         }
 
         fetchPost();
@@ -21,7 +24,12 @@ const SinglePost = ({ match }) => {
 
     return (
         <div className='SinglePost'>
-            <Post post={post} />
+            {loading && (
+                <p>Loading...</p>
+            )}
+            {!loading && (
+                <Post post={post} />
+            )}
         </div>
     )
 }
