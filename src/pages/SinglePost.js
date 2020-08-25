@@ -17,7 +17,7 @@ const SinglePost = ({ match }) => {
         }
 
         fetchPost();
-    });
+    }, []);
 
     return (
         <div className='SinglePost'>
